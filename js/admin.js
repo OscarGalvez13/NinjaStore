@@ -1,4 +1,4 @@
-const createTarj = (tarjetaObject) => {
+/*const createTarj = (tarjetaObject) => {
   const xhr = new XMLHttpRequest();
   xhr.addEventListener("readystatechange", () => {
     if (xhr.readyState == 4 && xhr.status == 200) {
@@ -17,8 +17,8 @@ let productos = {};
 document
   .querySelector(".added-product")
   .addEventListener("click", (event) => {});
+*/
 
-// codigo agregado isra
 function getArticle(){
   let objectResponse
   let arrayArticles=[]
@@ -46,27 +46,17 @@ function getArticle(){
   xhr.send()
 }
 
-// function validateData(){
-//   let objectProduct={}
-//   let nameProduct=document.getElementById("txtName")
-//   let priceProduct=document.getElementById("txtPrice")
-//   let descriptionProduct=document.getElementById("floatingTextarea2")
-//   console.log(nameProduct.value)
-//   console.log(priceProduct.value)
-//   console.log(descriptionProduct)
-  
-// }
-
-getDataForm=()=>{
+function getDataForm(){
   let fields=document.querySelectorAll(".form input:not(input[type='checkbox']), .form textarea")
-  let checkboxs=document.querySelectorAll(".form input[type='checbox']")
+  let checkboxs=document.querySelectorAll(".form input[type='checkbox']")
   console.log(fields)
   console.log(checkboxs)
   let product={}
+  let quantityFieldEmpty=0
 
   fields.forEach(field=>{
       if (!field.value){
-          // quantityFieldEmpty++
+          quantityFieldEmpty++
       }
       else{
           product={...product,[field.name]:field.name}
@@ -79,11 +69,14 @@ getDataForm=()=>{
       if (checkbox.checked) sizes=[...sizes, checkbox.value]
   })
 
+  if(sizes.length===0)quantityFieldEmpty++
+
   product={...product,sizes}
+  
   console.log(product)
   console.log(sizes)
 
-  // return validacion?product:null
+  return !quantityFieldEmpty>0?product:null
 }
 
 function createArticle(){
@@ -189,11 +182,9 @@ function printTable(data){
 document.querySelector(".added-product").addEventListener("click",(event)=>{
   event.preventDefault()
   let product=getDataForm()
-  console.log(product)
   if (product)
       createArticle(product)
-  else
-
+  // else
 })
 
 getArticle()

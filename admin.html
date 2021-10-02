@@ -62,28 +62,35 @@
             <div class="col-12 my-3">
               <label>Tamaños disponibles</label>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input name="sizes" class="form-check-input" value="Grande" type="checkbox" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   Grande
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input name="sizes" class="form-check-input" value="Mediano" type="checkbox" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   Mediano
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                <input name="sizes" class="form-check-input" value="Pequeño" type="checkbox" id="flexCheckChecked" checked>
                 <label class="form-check-label" for="flexCheckChecked">
                   Pequeño
                 </label>
               </div>
             </div>
+            <div class="col-12 ">
+              <div class="form-floating">
+                <textarea name="description" class="form-control" placeholder="Leave a comment here"
+                  id="floatingTextarea2"></textarea>
+                <label for="floatingTextarea2">Descripción</label>
+              </div>
+            </div>
             <div class="col-12 mb-4">
               <div class="form-floating">
-                <textarea class="form-control" name="descripcion" placeholder="Leave a comment here" id="floatingTextarea2"></textarea>
-                <label for="floatingTextarea2">Descripción</label>
+                <input name="stock" type="number" class="form-control" placeholder="name@example.com">
+                <label>Stock</label>
               </div>
             </div>
             <div class="col-md">
