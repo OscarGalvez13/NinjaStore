@@ -1,27 +1,4 @@
-function getArticle(){
-  let objectResponse
-  let arrayArticles=[]
-  const xhr=new XMLHttpRequest()
-  xhr.addEventListener("readystatechange",()=>{
-    if (xhr.readyState==4)
-      if(xhr.status>= 200 && xhr.status <= 299) {
-          objectResponse=JSON.parse(xhr.responseText)
-          if(objectResponse) {
-              arrayArticles = Object.keys(objectResponse).map((key) => {
-                  objectResponse = objectResponse[key]
-                  return {...objectResponse, id:key}
-              })
-              printTable(objectResponse)
-          }else {
-              printTable(objectResponse)
-              console.log("No hay Productos u.u")
-          }
-      }else
-        console.log("Ocurrio un error: ", xhr.status, "Not Found")
-  })
-  xhr.open("GET", "https://dataninja-97039-default-rtdb.firebaseio.com/.json")
-  xhr.send()
-}
+
 
 function getDataForm(){
   let fields=document.querySelectorAll(".form input:not(input[type='checkbox']), .form textarea")
@@ -47,11 +24,7 @@ function getDataForm(){
 
   product={...product,sizes}
   
-  console.log(product)
-  console.log(sizes)
-  console.log(quantityFieldEmpty)
-
-  return quantityFieldEmpty > 0 ? product : null
+  return !quantityFieldEmpty > 0 ? product : null
 }
 
 function createArticle(productObject){
@@ -64,13 +37,38 @@ function createArticle(productObject){
   xhr.send(JSON.stringify(productObject))
 }
 
+function getArticle(){
+  let objectResponse
+  let arrayArticles=[]
+  const xhr=new XMLHttpRequest()
+  xhr.addEventListener("readystatechange",()=>{
+    if (xhr.readyState==4)
+      if(xhr.status>= 200 && xhr.status <= 299) {
+          objectResponse=JSON.parse(xhr.responseText)
+          if(objectResponse) {
+              arrayArticles = Object.keys(objectResponse).map((key) => {
+                  objectResponse = objectResponse[key]
+                  return {...objectResponse, id:key}
+              })
+              printTable(objectResponse)
+          }else {
+              printTable(objectResponse)
+              console.log("No hay Productos u.u")
+          }
+      }else
+        console.log("Ocurrio un error: ", xhr.status, "Not Found")
+  })
+  xhr.open("GET", "https://dataninja-97039-default-rtdb.firebaseio.com/.json")
+  xhr.send()
+}
+
 function removeArticle (event) {
   console.log("Eliminando... jeje")
   // Eliminar del array
   let positionPerson = event.target.dataset.PersonIndex
   PersonArray.splice(positionPerson, 1)
   console.log(PersonArray)
-  printTable()
+  getArticle()
 }
 
 function updateArticle(idProd,newDataToUpdate){
@@ -104,6 +102,7 @@ function printTable(data){
       let tdImage = createNode("td", "Image")
       let tdName = createNode("td", name)
       let tdPrice = createNode("td", precio)
+      let tdStock=createNode("td",stock)
 
       let sizesProducts=""
       sizes.forEach((element,index) => {
@@ -142,6 +141,7 @@ function printTable(data){
       tr.appendChild(tdIndex)
       tr.appendChild(tdName)
       tr.appendChild(tdPrice)
+      tr.appendChild(tdStock)
       tr.appendChild(tdSize)
       tr.appendChild(tdButtons)
 
@@ -152,13 +152,29 @@ function printTable(data){
 }
 
 document.querySelector(".added-product").addEventListener("click",(event)=>{
-  // event.preventDefault()
+  event.preventDefault()
   let product=getDataForm()
   console.log(product)
   if (product)
     createArticle(product)
   else
     alert("Campos Obligatorios")
+})
+
+document.querySelector("#txtName").addEventListener("focusout",(event)=>{
+  event.preventDefault()
+  let nom=document.querySelector("#name-prod")
+  let txtName=document.getElementById("txtName")
+  let newName=`¡${txtName.value}!`
+  nom.textContent=newName
+})
+
+document.querySelector("#txtPrice").addEventListener("focusout",(event)=>{
+  event.preventDefault()
+  let nom=document.querySelector("#price-prod")
+  let txtPrice=document.getElementById("txtPrice")
+  let newName=`¡${txtPrice.value}!`
+  nom.textContent=newName
 })
 
 getArticle()
