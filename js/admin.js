@@ -1,5 +1,3 @@
-
-
 function getDataForm(){
   let fields=document.querySelectorAll(".form input:not(input[type='checkbox']), .form textarea")
   let checkboxs=document.querySelectorAll(".form input[type='checkbox']")
@@ -52,7 +50,6 @@ function getArticle(){
               })
               printTable(objectResponse)
           }else {
-              printTable(objectResponse)
               console.log("No hay Productos u.u")
           }
       }else
@@ -62,23 +59,64 @@ function getArticle(){
   xhr.send()
 }
 
-function removeArticle (event) {
-  console.log("Eliminando... jeje")
-  // Eliminar del array
-  let positionPerson = event.target.dataset.PersonIndex
-  PersonArray.splice(positionPerson, 1)
-  console.log(PersonArray)
-  getArticle()
+                    //no tiene funcionalidad aun
+function getOneArticle(producto){
+  // let objectResponse
+  // let arrayArticles=[]
+  // const xhr=new XMLHttpRequest()
+  // xhr.addEventListener("readystatechange",()=>{
+  //   if (xhr.readyState==4)
+  //     if(xhr.status>= 200 && xhr.status <= 299) {
+  //         objectResponse=JSON.parse(xhr.responseText)
+  //         if(objectResponse) {
+  //             arrayArticles = Object.keys(objectResponse).map((key) => {
+  //                 objectResponse = objectResponse[key]
+  //                 console.log(key)
+  //                 console.log(objectResponse)
+  //                 return {...objectResponse, id: key}
+  //             })
+  //             console.log(arrayArticles)
+  //             // for (let article of arrayArticles){
+  //             //   let data=Object.values(article)
+  //             //   console.log(data)
+  //             // }
+  //               // let {name}=article
+  //               // if (name.value===producto)
+  //         }else {
+  //             console.log("No se encontraron los datos u.u")
+  //         }
+  //     }else
+  //       console.log("Ocurrio un error: ", xhr.status, "Not Found")
+  // })
+  // xhr.open("GET", "https://dataninja-97039-default-rtdb.firebaseio.com/productos.json")
+  // xhr.send()
 }
 
+                                    //no tiene funcionalidad aun
+function removeArticle (event) {
+  // console.log("Eliminando... jeje")
+  // // Eliminar del array
+  // let positionPerson = event.target.dataset.PersonIndex
+  // PersonArray.splice(positionPerson, 1)
+  // console.log(PersonArray)
+  // getArticle()
+}
+                                    //no tiene funcionalidad aun
 function updateArticle(idProd,newDataToUpdate){
-  const xhr=new XMLHttpRequest()
-  xhr.addEventListener("readystatechange",()=>{
-      if (xhr.readyState==4 && xhr.status==200)
-        console.log(xhr.response)
-  })
-  xhr.open("PATCH", `https://dataninja-97039-default-rtdb.firebaseio.com/${idProd}.json`)
-  xhr.send(JSON.stringify(newDataToUpdate))
+  // const xhr=new XMLHttpRequest()
+  // xhr.addEventListener("readystatechange", () => {
+  //   if(xhr.readyState === 4 && xhr.status === 200) {
+  //       let products = JSON.parse(xhr.responseText)
+  //       products = Object.keys(products).map(key => {
+  //           let product = products[key]
+  //           return {...product, id: key}
+  //       })
+  //       // printProducts(products)
+  //       console.log(products)
+  //   }
+// })
+  // xhr.open("PATCH", `https://dataninja-97039-default-rtdb.firebaseio.com/${idProd}.json`)
+  // xhr.send(JSON.stringify(newDataToUpdate))
 }
 
 function createNode(typeElement, text){
@@ -161,6 +199,18 @@ document.querySelector(".added-product").addEventListener("click",(event)=>{
     alert("Campos Obligatorios")
 })
 
+document.querySelector(".edit-product").addEventListener("click",(event)=>{
+  event.preventDefault()
+  let objectResponse=getArticle()
+  console.log(objectResponse)
+  // let product=getDataForm()
+  
+  // if (product)
+  //   createArticle(product)
+  // else
+  //   alert("Campos Obligatorios")
+})
+
 document.querySelector("#txtName").addEventListener("focusout",(event)=>{
   event.preventDefault()
   let nom=document.querySelector("#name-prod")
@@ -173,7 +223,7 @@ document.querySelector("#txtPrice").addEventListener("focusout",(event)=>{
   event.preventDefault()
   let nom=document.querySelector("#price-prod")
   let txtPrice=document.getElementById("txtPrice")
-  let newName=`¡${txtPrice.value}!`
+  let newName=`${txtPrice.value}.00`
   nom.textContent=newName
 })
 
