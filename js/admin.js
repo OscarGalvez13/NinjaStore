@@ -80,46 +80,40 @@ function removeArticle (id) {
                                     //no tiene funcionalidad aun
 
 function updateProduct(prod){
-  console.log(prod)
   let inputs=document.querySelectorAll(".form input, .form textarea")
-  // let checkboxs=document.querySelectorAll(".form input[type='checkbox']")
-  console.log(inputs)
   const {name,description,stock,precio,image,sizes,id}=prod
 
   inputs.forEach( input =>{
-    console.log(input)
     for (const key in prod) {
         if(input.name === key){
             input.value = prod[key]
         }
     }
     if (input.classList.contains('form-check-input')) {
-        sizes.forEach( size => {
-          console.log(size)
-            if(size === input.name){
-                console.log('igual');
-                input.checked = true
-            }
-        })
+      sizes.forEach( size => input.checked = false)
+    }
+    if (input.classList.contains('form-check-input')) {
+      sizes.forEach( size => {
+        if(size === input.name){
+              input.checked = true
+        }
+      })
     }
   })
 }
-// function updateArticle(idProd,newDataToUpdate){
-//   // const xhr=new XMLHttpRequest()
-//   // xhr.addEventListener("readystatechange", () => {
-//   //   if(xhr.readyState === 4 && xhr.status === 200) {
-//   //       let products = JSON.parse(xhr.responseText)
-//   //       products = Object.keys(products).map(key => {
-//   //           let product = products[key]
-//   //           return {...product, id: key}
-//   //       })
-//   //       // printProducts(products)
-//   //       console.log(products)
-//   //   }
-// // })
-//   // xhr.open("PATCH", `https://dataninja-97039-default-rtdb.firebaseio.com/${idProd}.json`)
-//   // xhr.send(JSON.stringify(newDataToUpdate))
-// }
+
+function updateArticle(newArray){
+  const {id}=newArray
+  console.log (id)
+  const xhr=new XMLHttpRequest()
+  xhr.addEventListener("readystatechange",()=>{
+      if (xhr.readyState==4 && xhr.status==200)
+        console.log(xhr.responseText)
+  })
+  xhr.open("PATCH", `https://dataninja-97039-default-rtdb.firebaseio.com/productos/${id}.json`)
+  xhr.send(JSON.stringify(newArray))
+  printTable(newArray)
+}
 
 function createNode(typeElement, text){
   let node = document.createElement(typeElement)
@@ -210,14 +204,11 @@ document.querySelector(".added-product").addEventListener("click",(event)=>{
 //para editar datos
 document.querySelector(".edit-product").addEventListener("click",(event)=>{
   event.preventDefault()
-  let objectResponse=getArticle()
-  console.log(objectResponse)
-  // let product=getDataForm()
-  
-  // if (product)
-  //   createArticle(product)
-  // else
-  //   alert("Campos Obligatorios")
+  let product=getDataForm()
+  if (product)
+    updateArticle(product)
+  else
+    alert("Campos Obligatorios")
 })
 
 // cambiar el nombre de la card
