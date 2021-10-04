@@ -62,7 +62,6 @@ function getArticle(){
   xhr.send()
 }
 
-                                    //no tiene funcionalidad aun
 function removeArticle (id) {
   // console.log(id)
   const xhr = new XMLHttpRequest()
@@ -81,7 +80,29 @@ function removeArticle (id) {
                                     //no tiene funcionalidad aun
 
 function updateProduct(prod){
-  console.log(prod);
+  console.log(prod)
+  let inputs=document.querySelectorAll(".form input, .form textarea")
+  // let checkboxs=document.querySelectorAll(".form input[type='checkbox']")
+  console.log(inputs)
+  const {name,description,stock,precio,image,sizes,id}=prod
+
+  inputs.forEach( input =>{
+    console.log(input)
+    for (const key in prod) {
+        if(input.name === key){
+            input.value = prod[key]
+        }
+    }
+    if (input.classList.contains('form-check-input')) {
+        sizes.forEach( size => {
+          console.log(size)
+            if(size === input.name){
+                console.log('igual');
+                input.checked = true
+            }
+        })
+    }
+  })
 }
 // function updateArticle(idProd,newDataToUpdate){
 //   // const xhr=new XMLHttpRequest()
@@ -121,7 +142,6 @@ function printTable(data){
 
       const img=document.createElement('img')
       img.src=image
-      console.log(image)
       img.classList.add("img-fluid")
       img.setAttribute("width",30)
 
@@ -152,8 +172,10 @@ function printTable(data){
       iDanger.classList.add("fas", "fa-trash-alt")
       btnEdit.classList.add("btn", "btn-primary", "btnEdit")
       btnDelete.classList.add("btn", "btnDelete", "btn-danger")
+
       btnEdit.onclick = () => updateProduct(objectRes)
       btnDelete.onclick = () => removeArticle(id)
+
       btnEdit.appendChild(iPencil)
       btnDelete.appendChild(iDanger)
 
