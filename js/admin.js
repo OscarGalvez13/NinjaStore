@@ -82,12 +82,12 @@ function removeArticle (id) {
 
 function updateProduct(prod){
   let inputs=document.querySelectorAll(".form input, .form textarea")
-  const {id,sizes}=prod
+  const {id,sizes,name,precio,description,image}=prod
   ObjectToEdit={...prod}
   inputs.forEach( input =>{
-    for (const key in prod) {
-      if(input.name === key){
-        input.value = prod[key]
+    for (const data in prod) {
+      if(input.name === data){
+        input.value = prod[data]
       }
     }
     if (input.classList.contains('form-check-input')) {
@@ -95,13 +95,20 @@ function updateProduct(prod){
     }
     if (input.classList.contains('form-check-input')) {
       sizes.forEach( size => {
-        if(size === input.name){
-              input.checked = true
-        }
+        if(size === input.name)input.checked = true
       })
     }
   })
   ObjectToEdit.id=id
+  let nom=document.querySelector("#name-prod")
+  let priceProduct=document.querySelector("#price-prod")
+  let txtdesc=document.querySelector("#desc-prod")
+  let imageProd=document.querySelector("#image-prod")
+
+  imageProd.src=image
+  nom.textContent=`¡${name}!`
+  priceProduct.textContent=`${precio}.00`
+  txtdesc.textContent=description
 }
 
 function updateArticle(product){
@@ -231,10 +238,10 @@ document.querySelector("#txtName").addEventListener("focusout",(event)=>{
 // cambia el precio de la card
 document.querySelector("#txtPrice").addEventListener("focusout",(event)=>{
   event.preventDefault()
-  let nom=document.querySelector("#price-prod")
+  let price=document.querySelector("#price-prod")
   let txtPrice=document.getElementById("txtPrice")
   let newName=`${txtPrice.value}.00`
-  nom.textContent=newName
+  price.textContent=newName
 })
 
 document.querySelector("#floatingTextarea2").addEventListener("focusout",(event)=>{
