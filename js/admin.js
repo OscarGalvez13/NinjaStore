@@ -82,13 +82,13 @@ function removeArticle (id) {
 
 function updateProduct(prod){
   let inputs=document.querySelectorAll(".form input, .form textarea")
-  const {name,description,stock,precio,image,sizes,id}=prod
-
+  const {id,sizes}=prod
+  ObjectToEdit={...prod}
   inputs.forEach( input =>{
     for (const key in prod) {
-        if(input.name === key){
-            input.value = prod[key]
-        }
+      if(input.name === key){
+        input.value = prod[key]
+      }
     }
     if (input.classList.contains('form-check-input')) {
       sizes.forEach( size => input.checked = false)
@@ -101,28 +101,26 @@ function updateProduct(prod){
       })
     }
   })
-  ObjectToEdit.name = name
-  ObjectToEdit.precio = precio
-  ObjectToEdit.description = description
-  ObjectToEdit.image = image
-  ObjectToEdit.id = id
-  ObjectToEdit.sizes = sizes
-  ObjectToEdit.stock = stock
+  ObjectToEdit.id=id
 }
 
-function updateArticle(){
+function updateArticle(product){
   const {id}=ObjectToEdit
-  console.log(ObjectToEdit)
-  console.log(id)
-  // console.log (id)
-  // const xhr=new XMLHttpRequest()
-  // xhr.addEventListener("readystatechange",()=>{
-  //     // if (xhr.readyState==4 && xhr.status==200)
-  //     //   console.log(xhr.responseText)
-  // })
-  // xhr.open("PATCH", `https://dataninja-97039-default-rtdb.firebaseio.com/productos/${id}.json`)
-  // xhr.send(JSON.stringify(ObjectToEdit))
-  // printTable(ObjectToEdit)
+  ObjectToEdit.name=product.name
+  ObjectToEdit.precio=product.precio
+  ObjectToEdit.stock=parseInt(product.stock)
+  ObjectToEdit.sizes=product.sizes
+  ObjectToEdit.description=product.description
+  ObjectToEdit.image=product.image
+  const xhr=new XMLHttpRequest()
+  xhr.addEventListener("readystatechange",()=>{
+      if (xhr.readyState==4 && xhr.status==200)
+        if(xhr.responseText)
+          console.log("El objeto se ha actualizado satisfactoriamente")
+  })
+  xhr.open("PATCH", `https://dataninja-97039-default-rtdb.firebaseio.com/productos/${id}.json`)
+  xhr.send(JSON.stringify(ObjectToEdit))
+  getArticle()
 }
 
 function createNode(typeElement, text){
@@ -216,7 +214,7 @@ document.querySelector(".edit-product").addEventListener("click",(event)=>{
   event.preventDefault()
   let product=getDataForm()
   if (product)
-    updateArticle()
+    updateArticle(product)
   else
     alert("Campos Obligatorios")
 })
