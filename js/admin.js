@@ -1,3 +1,5 @@
+let ObjectToEdit={}
+
 function getDataForm(){
   let fields=document.querySelectorAll(".form input:not(input[type='checkbox']), .form textarea")
   let checkboxs=document.querySelectorAll(".form input[type='checkbox']")
@@ -77,7 +79,6 @@ function removeArticle (id) {
   xhr.open("DELETE", `https://dataninja-97039-default-rtdb.firebaseio.com/productos/${id}.json`)
   xhr.send()
 }
-                                    //no tiene funcionalidad aun
 
 function updateProduct(prod){
   let inputs=document.querySelectorAll(".form input, .form textarea")
@@ -100,19 +101,28 @@ function updateProduct(prod){
       })
     }
   })
+  ObjectToEdit.name = name
+  ObjectToEdit.precio = precio
+  ObjectToEdit.description = description
+  ObjectToEdit.image = image
+  ObjectToEdit.id = id
+  ObjectToEdit.sizes = sizes
+  ObjectToEdit.stock = stock
 }
 
-function updateArticle(newArray){
-  const {id}=newArray
-  console.log (id)
-  const xhr=new XMLHttpRequest()
-  xhr.addEventListener("readystatechange",()=>{
-      if (xhr.readyState==4 && xhr.status==200)
-        console.log(xhr.responseText)
-  })
-  xhr.open("PATCH", `https://dataninja-97039-default-rtdb.firebaseio.com/productos/${id}.json`)
-  xhr.send(JSON.stringify(newArray))
-  printTable(newArray)
+function updateArticle(){
+  const {id}=ObjectToEdit
+  console.log(ObjectToEdit)
+  console.log(id)
+  // console.log (id)
+  // const xhr=new XMLHttpRequest()
+  // xhr.addEventListener("readystatechange",()=>{
+  //     // if (xhr.readyState==4 && xhr.status==200)
+  //     //   console.log(xhr.responseText)
+  // })
+  // xhr.open("PATCH", `https://dataninja-97039-default-rtdb.firebaseio.com/productos/${id}.json`)
+  // xhr.send(JSON.stringify(ObjectToEdit))
+  // printTable(ObjectToEdit)
 }
 
 function createNode(typeElement, text){
@@ -194,7 +204,7 @@ function printTable(data){
 document.querySelector(".added-product").addEventListener("click",(event)=>{
   event.preventDefault()
   let product=getDataForm()
-  console.log(product)
+  // console.log(product)
   if (product)
     createArticle(product)
   else
@@ -206,7 +216,7 @@ document.querySelector(".edit-product").addEventListener("click",(event)=>{
   event.preventDefault()
   let product=getDataForm()
   if (product)
-    updateArticle(product)
+    updateArticle()
   else
     alert("Campos Obligatorios")
 })
